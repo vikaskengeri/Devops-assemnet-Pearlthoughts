@@ -27,7 +27,7 @@ This project deploys a scalable, reliable, and maintainable notification system 
 We use Terraform to provision the AWS infrastructure.
 
 ## Auto-Scaling Configuration
-Auto-scaling is configured to maintain CPU usage at 70%.
+Auto-scaling is configured to maintain CPU usage at 80%.
 
 ## Logging and Monitoring
 Logs are sent to Amazon CloudWatch, and metrics are monitored to ensure system reliability.
