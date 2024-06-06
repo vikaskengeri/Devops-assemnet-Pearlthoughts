@@ -104,3 +104,4 @@ resource "aws_ecs_service" "email_sender" {
   }
 }
 
+
