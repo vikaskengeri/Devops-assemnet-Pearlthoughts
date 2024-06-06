@@ -1,0 +1,41 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          registry: <your-aws-account-id>.dkr.ecr.<your-region>.amazonaws.com
+          region: <your-region>
+
+      - name: Build and push Docker images
+        run: |
+          docker buildx build --platform linux/amd64 --push -t <your-aws-account-id>.dkr.ecr.<your-region>.amazonaws.com/notification-api:latest -f Dockerfile.notification-api .
+          docker buildx build --platform linux/amd64 --push -t <your-aws-account-id>.dkr.ecr.<your-region>.amazonaws.com/email-sender:latest -f Dockerfile.email-sender .
+
+      - name: Deploy to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          service: notification-service
+          cluster: notification-cluster
+          wait-for-service-stability: true
+          
