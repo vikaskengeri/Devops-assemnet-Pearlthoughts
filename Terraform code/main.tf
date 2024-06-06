@@ -103,3 +103,4 @@ resource "aws_ecs_service" "email_sender" {
     container_port   = 3001
   }
 }
+
