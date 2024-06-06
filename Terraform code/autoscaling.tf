@@ -47,3 +47,4 @@ resource "aws_appautoscaling_policy" "email_sender_cpu" {
     scale_out_cooldown = 300
   }
 }
+
